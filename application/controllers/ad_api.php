@@ -24,7 +24,7 @@ class Ad_api extends CI_Controller {
 
         $active_data = $rtn = $this->ad_model->find_active_data($this->input->post('partner_id')); 
  
-        if((int)$active_data > 0) { 
+        if(!is_null($active_data)) { 
             $array = array(
                 'status' => 400,
                 'message' => "Active campaign exists.", 
@@ -61,7 +61,7 @@ class Ad_api extends CI_Controller {
 
     function find_active_data() { 
 
-        $partner_id = $this->uri->segment(3) ? $this->uri->segment(3) : $partner_id;
+        $partner_id = $this->uri->segment(3);
 
         if(!is_null($partner_id)) { 
             $rtn = $this->ad_model->find_active_data($partner_id); 

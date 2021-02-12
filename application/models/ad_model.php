@@ -20,15 +20,14 @@ class Ad_model extends CI_Model {
 
     function find_active_data($partner_id) {
         $now = date("Y-m-d H:i:s", strtotime("Now")); 
-
-        $this->db->select("count(*) as count");
+ 
         $this->db->where("partner_id", $partner_id);
         $this->db->where("end_time >", $now);
         $query = $this->db->get('ad_campaign');
         $row = $query->row();
 
         if(isset($row)) {
-            return $row->count;
+            return $row;
         }
     }
 }
