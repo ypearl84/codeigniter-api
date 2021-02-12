@@ -5,6 +5,7 @@ class Ad_model extends CI_Model {
     {
         // Call the Model constructor
         parent::__construct();
+        date_default_timezone_set('America/Los_Angeles'); 
         $this->load->database('default', TRUE);
     }
 
@@ -18,8 +19,16 @@ class Ad_model extends CI_Model {
     }
 
     function find_active_data($partner_id) {
+        $now = date("Y-m-d H:i:s", strtotime("Now")); 
+
+        $this->db->select("count(*) as count");
         $this->db->where("partner_id", $partner_id);
+        $this->db->where("end_time >", $now);
         $query = $this->db->get('ad_campaign');
-        return $query->result_array();
+        $row = $query->row();
+
+        if(isset($row)) {
+            return $row->count;
+        }
     }
 }
