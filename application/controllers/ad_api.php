@@ -10,8 +10,9 @@ class Ad_api extends CI_Controller {
         $this->load->library('form_validation');
     }
     
-    function index() {
-        echo "index";
+    function all() {
+        $rtn = $this->ad_model->find_all();  
+        echo json_encode($rtn); 
     }
 
     function insert() {

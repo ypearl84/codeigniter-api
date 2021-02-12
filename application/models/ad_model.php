@@ -9,6 +9,11 @@ class Ad_model extends CI_Model {
         $this->load->database('default', TRUE);
     }
 
+    function find_all() {
+        $query = $this->db->get('ad_campaign'); 
+        return $query->result_array();
+    }
+
     function insert_data($data) {
         $this->db->insert('ad_campaign', $data);
         if($this->db->affected_rows() > 0) {
