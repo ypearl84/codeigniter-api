@@ -15,13 +15,7 @@ class Ad_api extends CI_Controller {
     }
 
     function insert() {
-        
-        $this->form_validation->set_rules("partner_id", "partner_id", "required");
-        $this->form_validation->set_rules("duration", "duration", "required");
-        $this->form_validation->set_rules("ad_content", "ad_content", "required");
- 
-        $array = array();
-
+         
         $active_data = $rtn = $this->ad_model->find_active_data($this->input->post('partner_id')); 
  
         if(!is_null($active_data)) { 
@@ -30,6 +24,13 @@ class Ad_api extends CI_Controller {
                 'message' => "Active campaign exists.", 
             );
         } else {
+
+            $this->form_validation->set_rules("partner_id", "partner_id", "required");
+            $this->form_validation->set_rules("duration", "duration", "required");
+            $this->form_validation->set_rules("ad_content", "ad_content", "required");
+     
+            $array = array();
+
             if($this->form_validation->run()) {
     
                 $data = array(
@@ -59,7 +60,7 @@ class Ad_api extends CI_Controller {
         echo json_encode($array, true);
     }
 
-    function find_active_data() { 
+    function find() { 
 
         $partner_id = $this->uri->segment(3);
 
@@ -77,7 +78,32 @@ class Ad_api extends CI_Controller {
     }
 
     function delete() {
-        echo "delete";
+ 
+        $array = array();
+        $partner_id = $this->uri->segment(3);
+
+        if(!is_null($partner_id)) {
+
+            $data = array(
+                'partner_id' => $partner_id, 
+            );
+
+            $this->ad_model->delete_active_data($partner_id);
+            
+            $array = array(
+                'status' => 201
+            );
+
+        } else {
+
+            $array = array(
+                'status' => 400,  
+                'message' => "partner_id required.",  
+            );
+        }
+
+        echo json_encode($array, true); 
+
     }
 	
 
