@@ -36,6 +36,13 @@ class Ad_model extends CI_Model {
         }
     }
 
+    function find_data($partner_id) { 
+ 
+        $this->db->where("partner_id", $partner_id); 
+        $query = $this->db->get('ad_campaign');
+        return $query->result_array();
+    }
+
     function delete_active_data($index) {
         $now = date("Y-m-d H:i:s", strtotime("Now")); 
  

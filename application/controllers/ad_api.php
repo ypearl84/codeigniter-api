@@ -70,10 +70,10 @@ class Ad_api extends CI_Controller {
         $partner_id = $this->uri->segment(3);
 
         if(!is_null($partner_id)) { 
-            $rtn = $this->ad_model->find_active_data($partner_id); 
+            $rtn = $this->ad_model->find_data($partner_id); 
             
             http_response_code(200);
-            echo json_encode($rtn); 
+            echo json_encode($rtn, true); 
         
         } else {
             $array = array(

@@ -25,6 +25,11 @@
             </div>
             <div class="panel-body">
                 <span id="success_message"></span>
+                <div>
+                    <span>Search by partner id:</span> 
+                    <input id="search_id" /> 
+                    <button id="search_button">search</button>
+                <div>
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -103,6 +108,24 @@ $(document).ready(function(){
         $('#data_action').val("Insert");
         $('#adModal').modal('show');
         $('#adModal').show();
+    });
+
+    $('#search_button').click(function(){  
+        event.preventDefault();
+
+        var id = $('#search_id').val(); 
+        $.ajax({
+            url: "http://localhost/ci-api/index.php/ad_api/find/"+id,
+            method:"GET", 
+            dataType:"json",
+            success:function(data) {    
+                $("#ad_body").empty();
+                console.log(data)
+                $.each(data, function(key, value) {  
+                    $('#ad_body').append("<tr><td>"+value.partner_id+"</td><td>"+value.ad_content+"</td><td>"+value.end_time+"</td><td><button class='delete' data-id='"+value.index+"'>DELETE</button></td></tr>"); 
+                });
+            }, 
+        })
     });
 
     $(document).on('click', '.delete', function(event){ 
