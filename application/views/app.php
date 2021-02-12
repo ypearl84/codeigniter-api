@@ -33,7 +33,7 @@
                             <th>Duration</th> 
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="ad_body">
                         
                     </tbody>
                 </table>
@@ -75,6 +75,30 @@
 <script type="text/javascript" language="javascript" >
 $(document).ready(function(){
 
+    var list = <?php echo $data; ?>;
+    $.each(list, function(key, value) {  
+        $('#ad_body').append("<tr><td>"+value.partner_id+"</td><td>"+value.ad_content+"</td><td>"+value.end_time+"</td></tr>"); 
+    });
+
+    function fetch_all() {
+        event.preventDefault();
+        $.ajax({
+            url: "http://localhost/ci-api/index.php/ad_api/all",
+            method:"GET",
+            data:$(this).serialize(),
+            dataType:"json",
+            success:function(data) {    
+                //$("#ad_body").remove();
+                $.each(data, function(key, value) {  
+                    $('#ad_body').append("<tr><td>"+value.partner_id+"</td><td>"+value.ad_content+"</td><td>"+value.end_time+"</td></tr>"); 
+                });
+            }, 
+        })
+    };
+
+    //fetch_all();
+   
+
     $('#add_button').click(function(){ 
         $('#ad_form')[0].reset(); 
         $('.error').html('');
@@ -94,9 +118,12 @@ $(document).ready(function(){
             success:function(data) {    
                 if(data.status==201) {
                     $('#ad_form')[0].reset();
-                    $('#userModal').hide();
+                    $('#adModal').modal('hide');
+                    $('#adModal').hide();
                     $('.error').html(''); 
                     $('#success_message').html('<div class="alert alert-success">Data Inserted</div>'); 
+                    fetch_all();
+
                 }   
             },
             error:function(data) {      
