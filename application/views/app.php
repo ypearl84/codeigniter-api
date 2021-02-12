@@ -88,17 +88,13 @@ $(document).ready(function(){
             data:$(this).serialize(),
             dataType:"json",
             success:function(data) {    
-                //$("#ad_body").remove();
+                $("#ad_body").empty();
                 $.each(data, function(key, value) {  
                     $('#ad_body').append("<tr><td>"+value.partner_id+"</td><td>"+value.ad_content+"</td><td>"+value.end_time+"</td></tr>"); 
                 });
             }, 
         })
-    };
-
-    //fetch_all();
-   
-
+    };  
     $('#add_button').click(function(){ 
         $('#ad_form')[0].reset(); 
         $('.error').html('');
@@ -126,9 +122,8 @@ $(document).ready(function(){
 
                 }   
             },
-            error:function(data) {      
-                $('.error').html('Error occured');
-                   
+            error:function(data) {        
+                $('.error').html(data.responseJSON.message); 
             }
         })
     });

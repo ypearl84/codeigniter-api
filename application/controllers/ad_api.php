@@ -21,15 +21,15 @@ class Ad_api extends CI_Controller {
  
         if(!is_null($active_data)) { 
             $array = array(
-                'status' => 400,
+                'status' => 401,
                 'message' => "Active campaign exists.", 
             );
-            http_response_code(400);
+            http_response_code(401);
         } else {
 
             $this->form_validation->set_rules("partner_id", "partner_id", "required");
-            $this->form_validation->set_rules("duration", "duration", "required");
-            $this->form_validation->set_rules("ad_content", "ad_content", "required");
+            $this->form_validation->set_rules("duration", "duration", "required | numeric");
+            $this->form_validation->set_rules("ad_content", "ad_content", "required"); 
      
             $array = array();
 
@@ -54,9 +54,7 @@ class Ad_api extends CI_Controller {
     
                 $array = array(
                     'status' => 400,
-                    'partner_id_error' => form_error('partner_id'),
-                    'duration_error' => form_error('duration'),
-                    'ad_content' => form_error('ad_content')
+                    'message' => 'Required data missing or invalid.'
                 );
 
                 http_response_code(400);
