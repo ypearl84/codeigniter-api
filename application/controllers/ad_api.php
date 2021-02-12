@@ -24,6 +24,7 @@ class Ad_api extends CI_Controller {
                 'status' => 400,
                 'message' => "Active campaign exists.", 
             );
+            http_response_code(400);
         } else {
 
             $this->form_validation->set_rules("partner_id", "partner_id", "required");
@@ -46,6 +47,8 @@ class Ad_api extends CI_Controller {
                 $array = array(
                     'status' => 201
                 );
+
+                http_response_code(201);
     
             } else {
     
@@ -55,10 +58,12 @@ class Ad_api extends CI_Controller {
                     'duration_error' => form_error('duration'),
                     'ad_content' => form_error('ad_content')
                 );
+
+                http_response_code(400);
             }
         } 
 
-        echo json_encode($array, true);
+        return json_encode($array, true);
     }
 
     function find() { 
@@ -74,7 +79,10 @@ class Ad_api extends CI_Controller {
             $array = array(
                 'status' => 400
             );
-            echo json_encode($array, true); 
+
+            http_response_code(400);
+
+            return json_encode($array, true); 
         } 
     }
 
@@ -94,6 +102,7 @@ class Ad_api extends CI_Controller {
             $array = array(
                 'status' => 201
             );
+            http_response_code(201);
 
         } else {
 
@@ -101,9 +110,10 @@ class Ad_api extends CI_Controller {
                 'status' => 400,  
                 'message' => "partner_id required.",  
             );
+            http_response_code(400);
         }
 
-        echo json_encode($array, true); 
+        return json_encode($array, true); 
 
     }
 	

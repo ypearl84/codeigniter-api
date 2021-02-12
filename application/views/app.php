@@ -28,10 +28,9 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Partner Id</th>
+                            <th>Content</th>
+                            <th>Duration</th> 
                         </tr>
                     </thead>
                     <tbody>
@@ -44,27 +43,29 @@
 </body>
 </html>
 
-<div id="userModal" class="modal fade">
+<div id="adModal" class="modal fade">
     <div class="modal-dialog">
-        <form method="post" id="user_form">
+        <form method="post" id="ad_form">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add User</h4>
+                    <h4 class="modal-title">Add ad campaign</h4>
                 </div>
                 <div class="modal-body">
-                    <label>Enter First Name</label>
-                    <input type="text" name="first_name" id="first_name" class="form-control" />
-                    <span id="first_name_error" class="text-danger"></span>
+                    <label>Enter Partner Id</label>
+                    <input type="text" name="partner_id" id="partner_id" class="form-control" />
+                    <span id="partener_id_error" class="text-danger"></span>
                     <br />
-                    <label>Enter Last Name</label>
-                    <input type="text" name="last_name" id="last_name" class="form-control" />
-                    <span id="last_name_error" class="text-danger"></span>
+                    <label>Enter Contents</label>
+                    <input type="text" name="ad_content" id="ad_content" class="form-control" />
+                    <span id="ad_content_error" class="text-danger"></span>
+                    <br />
+                    <label>Enter Duration</label>
+                    <input type="text" name="duration" id="duration" class="form-control" />
+                    <span id="duration_error" class="text-danger"></span>
                     <br />
                 </div>
-                <div class="modal-footer">
-                    <input type="hidden" name="user_id" id="user_id" />
-                    <input type="hidden" name="data_action" id="data_action" value="Insert" />
+                <div class="modal-footer">  
                     <input type="submit" name="action" id="action" class="btn btn-success" value="Add" />
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
@@ -72,3 +73,46 @@
         </form>
     </div>
 </div> 
+
+<script type="text/javascript" language="javascript" >
+$(document).ready(function(){
+
+    $('#add_button').click(function(){ 
+        $('#ad_form')[0].reset(); 
+        $('#action').val('Add');
+        $('#data_action').val("Insert");
+        $('#adModal').modal('show');
+        $('#adModal').show();
+    });
+
+    $(document).on('submit', '#ad_form', function(event){
+        event.preventDefault();
+        $.ajax({
+            url: "http://localhost/ci-api/index.php/ad_api/insert",
+            method:"POST",
+            data:$(this).serialize(),
+            dataType:"json",
+            success:function(data)
+            {
+                if(data.success)
+                {
+                    $('#user_form')[0].reset();
+                    $('#userModal').modal('hide');
+                    //fetch_data();
+                    //if($('#data_action').val() == "Insert")
+                    //{
+                        $('#success_message').html('<div class="alert alert-success">Data Inserted</div>');
+                    //}
+                }
+
+                if(data.error)
+                {
+                    //$('#first_name_error').html(data.first_name_error);
+                    //$('#last_name_error').html(data.last_name_error);
+                }
+            }
+        })
+    });
+        
+});
+</script>
