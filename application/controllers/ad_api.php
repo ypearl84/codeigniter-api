@@ -31,13 +31,13 @@ class Ad_api extends CI_Controller {
             $this->ad_model->insert_data($data);
             
             $array = array(
-                'success'  => true
+                'status' => 201
             );
 
         } else {
 
             $array = array(
-                'error'    => true,
+                'status' => 400,
                 'partner_id_error' => form_error('partner_id'),
                 'duration_error' => form_error('duration'),
                 'ad_content' => form_error('ad_content')
@@ -45,6 +45,21 @@ class Ad_api extends CI_Controller {
         }
 
         echo json_encode($array, true);
+    }
+
+    function find_active_data() { 
+
+        $partner_id = $this->uri->segment(3);
+
+        if(!is_null($partner_id)) { 
+            $rtn = $this->ad_model->find_active_data($partner_id); 
+            echo json_encode($rtn); 
+        } else {
+            $array = array(
+                'status' => 400
+            );
+            echo json_encode($array, true); 
+        } 
     }
 
     function delete() {

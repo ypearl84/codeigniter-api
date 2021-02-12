@@ -16,4 +16,10 @@ class Ad_model extends CI_Model {
             return false;
         }  
     }
+
+    function find_active_data($partner_id) {
+        $this->db->where("partner_id", $partner_id);
+        $query = $this->db->get('ad_campaign');
+        return $query->result_array();
+    }
 }
