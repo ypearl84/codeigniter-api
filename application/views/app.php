@@ -29,6 +29,7 @@
                     <span>Search by partner id:</span> 
                     <input id="search_id" /> 
                     <button id="search_button">search</button>
+                    <button id="reset">reset</button>
                 <div>
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -100,6 +101,11 @@ $(document).ready(function(){
             }, 
         })
     }; 
+
+    $('#reset').click(function(){  
+        $('#search_id').val('');
+        fetch_all();
+    });
 
     $('#add_button').click(function(){ 
         $('#ad_form')[0].reset(); 
