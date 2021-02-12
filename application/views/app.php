@@ -53,18 +53,16 @@
                 </div>
                 <div class="modal-body">
                     <label>Enter Partner Id</label>
-                    <input type="text" name="partner_id" id="partner_id" class="form-control" />
-                    <span id="partener_id_error" class="text-danger"></span>
+                    <input type="text" name="partner_id" id="partner_id" class="form-control" /> 
                     <br />
                     <label>Enter Contents</label>
-                    <input type="text" name="ad_content" id="ad_content" class="form-control" />
-                    <span id="ad_content_error" class="text-danger"></span>
+                    <input type="text" name="ad_content" id="ad_content" class="form-control" /> 
                     <br />
                     <label>Enter Duration</label>
-                    <input type="text" name="duration" id="duration" class="form-control" />
-                    <span id="duration_error" class="text-danger"></span>
+                    <input type="text" name="duration" id="duration" class="form-control" /> 
                     <br />
                 </div>
+                <div class="error"></div>
                 <div class="modal-footer">  
                     <input type="submit" name="action" id="action" class="btn btn-success" value="Add" />
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -79,6 +77,7 @@ $(document).ready(function(){
 
     $('#add_button').click(function(){ 
         $('#ad_form')[0].reset(); 
+        $('.error').html('');
         $('#action').val('Add');
         $('#data_action').val("Insert");
         $('#adModal').modal('show');
@@ -92,24 +91,17 @@ $(document).ready(function(){
             method:"POST",
             data:$(this).serialize(),
             dataType:"json",
-            success:function(data)
-            {
-                if(data.success)
-                {
-                    $('#user_form')[0].reset();
-                    $('#userModal').modal('hide');
-                    //fetch_data();
-                    //if($('#data_action').val() == "Insert")
-                    //{
-                        $('#success_message').html('<div class="alert alert-success">Data Inserted</div>');
-                    //}
-                }
-
-                if(data.error)
-                {
-                    //$('#first_name_error').html(data.first_name_error);
-                    //$('#last_name_error').html(data.last_name_error);
-                }
+            success:function(data) {    
+                if(data.status==201) {
+                    $('#ad_form')[0].reset();
+                    $('#userModal').hide();
+                    $('.error').html(''); 
+                    $('#success_message').html('<div class="alert alert-success">Data Inserted</div>'); 
+                }   
+            },
+            error:function(data) {      
+                $('.error').html('Error occured');
+                   
             }
         })
     });

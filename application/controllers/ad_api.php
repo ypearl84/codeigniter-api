@@ -63,7 +63,7 @@ class Ad_api extends CI_Controller {
             }
         } 
 
-        return json_encode($array, true);
+        echo json_encode($array, true);
     }
 
     function find() { 
@@ -82,7 +82,7 @@ class Ad_api extends CI_Controller {
 
             http_response_code(400);
 
-            return json_encode($array, true); 
+            echo json_encode($array, true); 
         } 
     }
 
@@ -113,7 +113,7 @@ class Ad_api extends CI_Controller {
             http_response_code(400);
         }
 
-        return json_encode($array, true); 
+        echo json_encode($array, true); 
 
     }
 	
