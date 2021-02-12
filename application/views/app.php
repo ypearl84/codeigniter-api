@@ -105,16 +105,16 @@ $(document).ready(function(){
         $('#adModal').show();
     });
 
-    $('.delete').click(function(){ 
+    $(document).on('click', '.delete', function(event){ 
+        event.preventDefault();
         $.ajax({
             url: "http://localhost/ci-api/index.php/ad_api/delete/"+$(this).data('id'),
             method:"DELETE", 
             dataType:"json",
             success:function(data) {     
-                    fetch_all(); 
-                
+                fetch_all();  
             }
-        })
+        }) 
     });
 
     $(document).on('submit', '#ad_form', function(event){

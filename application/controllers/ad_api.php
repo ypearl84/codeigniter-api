@@ -29,7 +29,7 @@ class Ad_api extends CI_Controller {
         } else {
 
             $this->form_validation->set_rules("partner_id", "partner_id", "required");
-            $this->form_validation->set_rules("duration", "duration", "required | numeric");
+            $this->form_validation->set_rules("duration", "duration", "required|numeric");
             $this->form_validation->set_rules("ad_content", "ad_content", "required"); 
      
             $array = array();
