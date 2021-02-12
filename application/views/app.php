@@ -31,10 +31,10 @@
                             <th>Partner Id</th>
                             <th>Content</th>
                             <th>Duration</th> 
+                            <th></th> 
                         </tr>
                     </thead>
-                    <tbody id="ad_body">
-                        
+                    <tbody id="ad_body"> 
                     </tbody>
                 </table>
             </div>
@@ -77,7 +77,7 @@ $(document).ready(function(){
 
     var list = <?php echo $data; ?>;
     $.each(list, function(key, value) {  
-        $('#ad_body').append("<tr><td>"+value.partner_id+"</td><td>"+value.ad_content+"</td><td>"+value.end_time+"</td></tr>"); 
+        $('#ad_body').append("<tr><td>"+value.partner_id+"</td><td>"+value.ad_content+"</td><td>"+value.end_time+"</td><td><button class='delete' data-id='"+value.index+"'>DELETE</button></td></tr>"); 
     });
 
     function fetch_all() {
@@ -90,11 +90,12 @@ $(document).ready(function(){
             success:function(data) {    
                 $("#ad_body").empty();
                 $.each(data, function(key, value) {  
-                    $('#ad_body').append("<tr><td>"+value.partner_id+"</td><td>"+value.ad_content+"</td><td>"+value.end_time+"</td></tr>"); 
+                    $('#ad_body').append("<tr><td>"+value.partner_id+"</td><td>"+value.ad_content+"</td><td>"+value.end_time+"</td><td><button class='delete' data-id='"+value.index+"'>DELETE</button></td></tr>"); 
                 });
             }, 
         })
-    };  
+    }; 
+
     $('#add_button').click(function(){ 
         $('#ad_form')[0].reset(); 
         $('.error').html('');
@@ -102,6 +103,18 @@ $(document).ready(function(){
         $('#data_action').val("Insert");
         $('#adModal').modal('show');
         $('#adModal').show();
+    });
+
+    $('.delete').click(function(){ 
+        $.ajax({
+            url: "http://localhost/ci-api/index.php/ad_api/delete/"+$(this).data('id'),
+            method:"DELETE", 
+            dataType:"json",
+            success:function(data) {     
+                    fetch_all(); 
+                
+            }
+        })
     });
 
     $(document).on('submit', '#ad_form', function(event){

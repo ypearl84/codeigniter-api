@@ -11,7 +11,8 @@ class Ad_api extends CI_Controller {
     }
     
     function all() {
-        $rtn = $this->ad_model->find_all();  
+        $rtn = $this->ad_model->find_all();
+        http_response_code(200);  
         echo json_encode($rtn); 
     }
 
@@ -71,6 +72,7 @@ class Ad_api extends CI_Controller {
         if(!is_null($partner_id)) { 
             $rtn = $this->ad_model->find_active_data($partner_id); 
             
+            http_response_code(200);
             echo json_encode($rtn); 
         
         } else {
@@ -87,20 +89,16 @@ class Ad_api extends CI_Controller {
     function delete() {
  
         $array = array();
-        $partner_id = $this->uri->segment(3);
+        $index = $this->uri->segment(3);
 
-        if(!is_null($partner_id)) {
-
-            $data = array(
-                'partner_id' => $partner_id, 
-            );
-
-            $this->ad_model->delete_active_data($partner_id);
+        if(!is_null($index)) {
+ 
+            $this->ad_model->delete_active_data($index);
             
             $array = array(
-                'status' => 201
+                'status' => 200
             );
-            http_response_code(201);
+            http_response_code(200);
 
         } else {
 

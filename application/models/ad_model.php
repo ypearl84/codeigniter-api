@@ -36,11 +36,10 @@ class Ad_model extends CI_Model {
         }
     }
 
-    function delete_active_data($partner_id) {
+    function delete_active_data($index) {
         $now = date("Y-m-d H:i:s", strtotime("Now")); 
  
-        $this->db->where("partner_id", $partner_id);
-        $this->db->where("end_time >", $now);
+        $this->db->where("index", $index);  
         $query = $this->db->delete('ad_campaign');
         if($this->db->affected_rows() > 0) {
             return true;
